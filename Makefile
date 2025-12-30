@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall -std=c99
+CFLAGS=-Wall -std=c99 -g
 
 help:
 	@echo "If you want to compile all binaries, use 'make all' "
