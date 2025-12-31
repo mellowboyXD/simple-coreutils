@@ -8,6 +8,9 @@ help:
 swc: src/swc.c bin
 	$(CC) $(CFLAGS) -o bin/swc src/swc.c
 
+scp: src/scp/scp.cpp bin
+	g++ -Wall -Wextra -std=c++11 -lc -g -o bin/scp src/scp/scp.cpp
+
 all: swc
 
 bin:
