@@ -8,7 +8,7 @@ help:
 swc: src/swc.c bin
 	$(CC) $(CFLAGS) -o bin/swc src/swc.c
 
-scp: src/scp/scp.cpp src/scp/filedescriptor.cpp src/scp/copy.cpp bin
+scp: src/scp/scp.cpp src/scp/filedescriptor.cpp src/scp/copy.cpp bin out
 	g++ -Wall -Wextra -std=c++11 -lc -g -c src/scp/scp.cpp -o obj/scp-scp.out
 	g++ -Wall -Wextra -std=c++11 -lc -g -c src/scp/filedescriptor.cpp -o obj/scp-filedescriptor.out
 	g++ -Wall -Wextra -std=c++11 -lc -g -c src/scp/copy.cpp -o obj/scp-copy.o
