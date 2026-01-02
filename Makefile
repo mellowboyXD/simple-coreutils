@@ -8,11 +8,11 @@ help:
 swc: src/swc.c bin
 	$(CC) $(CFLAGS) -o bin/swc src/swc.c
 
-scp: src/scp/scp.cpp src/scp/filedescriptor.cpp src/scp/copy.cpp bin out
+scp: src/scp/scp.cpp src/scp/filedescriptor.cpp src/scp/copy.cpp bin obj
 	g++ -Wall -Wextra -std=c++11 -lc -g -c src/scp/scp.cpp -o obj/scp-scp.out
 	g++ -Wall -Wextra -std=c++11 -lc -g -c src/scp/filedescriptor.cpp -o obj/scp-filedescriptor.out
-	g++ -Wall -Wextra -std=c++11 -lc -g -c src/scp/copy.cpp -o obj/scp-copy.o
-	g++ obj/*.o -o bin/scp
+	g++ -Wall -Wextra -std=c++11 -lc -g -c src/scp/copy.cpp -o obj/scp-copy.out
+	g++ obj/scp-{scp,filedescriptor,copy}.out -o bin/scp
 
 all: swc scp
 
@@ -23,4 +23,4 @@ obj:
 	mkdir obj/
 
 clean: bin obj
-	rm -r bin/
+	rm -r bin/ obj/

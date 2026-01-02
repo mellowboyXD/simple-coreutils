@@ -1,3 +1,4 @@
+#include "filedescriptor.hpp"
 #include <iostream>
 #include "copy.hpp"
 
@@ -14,8 +15,7 @@ bool copy::copy_file(FileDescriptor &src, FileDescriptor &dst)
 	}
 
 	if (bytes < 0) {
-		std::cerr << "Error reading file: " + src.getPathname()
-			  << ": ";
+		std::cerr << "Error reading file: " + src.getPathname() << ": ";
 		return false;
 	}
 
