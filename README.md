@@ -11,6 +11,15 @@ Kinda optimistics, I agree!
 make all    # compiles all available binaries (see below)
 ```
 
-## CURRENT AVAILABLE BINARIES
+Optionally you can only compile the binaries you want to use.
 
-- swc - simple wc 
+For e.g.
+
+```bash
+make scp    # will compile only the scp binary
+```
+
+## AVAILABLE BINARIES
+
+- swc - simple word count
+- scp - simple copy
