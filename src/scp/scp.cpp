@@ -10,10 +10,12 @@
 #include <unistd.h>
 
 #include "filedescriptor.hpp"
+#include "copy.hpp"
 
-void print_usage();
-bool copy_file(FileDescriptor &src, FileDescriptor &dst);
-bool copy_permissions(FileDescriptor &src_fd, FileDescriptor &dst_fd);
+void print_usage()
+{
+	std::cout << "Usage: scp <source> <destination>" << std::endl;
+}
 
 int main(int argc, const char **argv)
 {
@@ -34,53 +36,15 @@ int main(int argc, const char **argv)
 		exit(EXIT_FAILURE);
 	}
 
-	if (!copy_file(src, dst)) {
-		std::cerr << "An error occured during file copying."
-			  << std::endl;
+	if (!copy::copy_file(src, dst)) {
+		std::cerr << "Error copying file contents" << std::endl;
 		exit(EXIT_FAILURE);
 	}
 
-	if (!copy_permissions(src, dst)) {
+	if (!copy::copy_permissions(src, dst)) {
 		std::cerr << "Error copying permissions" << std::endl;
 		exit(EXIT_FAILURE);
 	}
 
 	exit(EXIT_SUCCESS);
-}
-
-void print_usage()
-{
-	std::cout << "Usage: scp <source> <destination>" << std::endl;
-}
-
-bool copy_file(FileDescriptor &src, FileDescriptor &dst)
-{
-	char buf[FileDescriptor::BUFSIZE];
-
-	ssize_t bytes;
-	while ((bytes = read(src.getFd(), buf, FileDescriptor::BUFSIZE)) > 0) {
-		if (write(dst.getFd(), buf, bytes) != bytes) {
-			std::cerr << "Error writing to file" << std::endl;
-			return false;
-		}
-	}
-
-	if (bytes < 0) {
-		std::cerr << "Error reading file: " + src.getPathname()
-			  << std::endl;
-		return false;
-	}
-
-	return true;
-}
-
-bool copy_permissions(FileDescriptor &src, FileDescriptor &dst)
-{
-	std::string path = dst.getPathname();
-	if (chmod(path.c_str(), src.getStat().st_mode) < 0) {
-		std::cerr << "Error copy file mode" << std::endl;
-		return false;
-	}
-
-	return true;
 }

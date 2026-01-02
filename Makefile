@@ -11,6 +11,7 @@ swc: src/swc.c bin
 scp: src/scp/scp.cpp bin
 	g++ -Wall -Wextra -std=c++11 -lc -g -c src/scp/scp.cpp -o obj/scp-scp.out
 	g++ -Wall -Wextra -std=c++11 -lc -g -c src/scp/filedescriptor.cpp -o obj/scp-filedescriptor.out
+	g++ -Wall -Wextra -std=c++11 -lc -g -c src/scp/copy.cpp -o obj/scp-copy.o
 	g++ obj/*.o -o bin/scp
 
 all: swc scp
