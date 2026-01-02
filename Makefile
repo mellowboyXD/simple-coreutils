@@ -9,12 +9,17 @@ swc: src/swc.c bin
 	$(CC) $(CFLAGS) -o bin/swc src/swc.c
 
 scp: src/scp/scp.cpp bin
-	g++ -Wall -Wextra -std=c++11 -lc -g -o bin/scp src/scp/scp.cpp
+	g++ -Wall -Wextra -std=c++11 -lc -g -c src/scp/scp.cpp -o obj/scp-scp.out
+	g++ -Wall -Wextra -std=c++11 -lc -g -c src/scp/filedescriptor.cpp -o obj/scp-filedescriptor.out
+	g++ obj/*.o -o bin/scp
 
-all: swc
+all: swc scp
 
 bin:
 	mkdir bin/
 
-clean: bin
+obj:
+	mkdir obj/
+
+clean: bin obj
 	rm -r bin/

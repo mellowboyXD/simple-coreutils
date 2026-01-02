@@ -6,93 +6,10 @@
  *
  * Author: mellowboyxd */
 
-#include <unistd.h>
-#include <fcntl.h>
 #include <iostream>
-#include <sys/stat.h>
+#include <unistd.h>
 
-class FileDescriptor {
-    private:
-	const int default_perm = 0644;
-	int32_t fd;
-	struct stat st;
-	std::string errmsg;
-	std::string pathname;
-
-    public:
-	static const int READ = 0;
-	static const int WRITE = 1;
-	static const int BUFSIZE = 4096;
-
-	bool Open(const std::string pathname, const int mode)
-	{
-		switch (mode) {
-		case READ:
-			if (stat(pathname.c_str(), &st) == -1) {
-				errmsg = pathname + ": Permission denied";
-				return false;
-			}
-
-			if (!S_ISREG(st.st_mode)) {
-				if (S_ISDIR(st.st_mode)) {
-					errmsg = pathname + ": Is a directory";
-				} else {
-					errmsg = pathname +
-						 ": Not a regular file";
-				}
-				return false;
-			}
-
-			fd = open(pathname.c_str(), O_RDONLY);
-			if (fd == -1) {
-				errmsg = "Error opening file for read";
-				return false;
-			}
-			break;
-		case WRITE:
-			fd = open(pathname.c_str(), O_WRONLY | O_CREAT,
-				  default_perm);
-			if (fd == -1) {
-				errmsg = "Error opening file for write";
-				return false;
-			}
-			break;
-		default:
-			fd = -1;
-			errmsg = "Invalid mode";
-			return false;
-		}
-
-		this->pathname = pathname;
-		return true;
-	}
-
-	std::string getErrmsg()
-	{
-		return errmsg;
-	}
-
-	std::string getPathname()
-	{
-		return pathname;
-	}
-
-	int32_t getFd()
-	{
-		return fd;
-	}
-
-	struct stat &getStat()
-	{
-		return st;
-	}
-
-	~FileDescriptor()
-	{
-		if (fd != -1)
-			close(fd);
-	}
-};
+#include "filedescriptor.hpp"
 
 void print_usage();
 bool copy_file(FileDescriptor &src, FileDescriptor &dst);
